@@ -9,5 +9,31 @@ namespace AsyncInn.Data
         public AsyncInnDbContext(DbContextOptions options) : base(options){}
 
         public DbSet<Hotel> Hotels { get; set; }
+        public DbSet<Room> Rooms { get; set; }
+        public DbSet<Amenity> Amenities { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Hotel>()
+                .HasData(
+                new Hotel { Id = 1, Name = "Kalahari" },
+                new Hotel { Id = 2, Name = "Wilderness" },
+                new Hotel { Id = 3, Name = "Hilton" }
+                );
+
+            modelBuilder.Entity<Room>()
+                .HasData(
+                new Room { Id = 1, Name = "Studio", Layout = 0 },
+                new Room { Id = 2, Name = "OneBedroom", Layout = 1 },
+                new Room { Id = 3, Name = "TwoBedroom", Layout = 2 }
+                );
+
+            modelBuilder.Entity<Amenity>()
+               .HasData(
+               new Amenity { Id = 1, RoomId = 0 },
+               new Amenity { Id = 2, RoomId = 1 },
+               new Amenity { Id = 3, RoomId = 2 }
+               );
+        }
     }
 }

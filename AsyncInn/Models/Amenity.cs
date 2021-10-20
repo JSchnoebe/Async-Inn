@@ -3,8 +3,8 @@ namespace AsyncInn.Models
 {
     public class Amenity
     {
-        public Amenity()
-        {
-        }
+        public int Id { get; set; }
+        public int RoomId { get; set; }
+
     }
 }
