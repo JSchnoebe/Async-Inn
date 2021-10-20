@@ -12,5 +12,6 @@ namespace AsyncInn.Services
         Task<List<Hotel>> GetAll();
         Task<Hotel> GetById(int id);
         Task Insert(Hotel hotels);
+        Task<bool> TryDelete(int id);
     }
 }

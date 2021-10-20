@@ -14,10 +14,12 @@ namespace AsyncInn.Controllers
     [ApiController]
     public class RoomsController : ControllerBase
     {
+        private readonly IRoomRepository rooms;
         private readonly AsyncInnDbContext _context;
 
-        public RoomsController(AsyncInnDbContext context)
+        public RoomsController(IRoomRepository rooms, AsyncInnDbContext context)
         {
+            this.rooms = rooms;
             _context = context;
         }
 
@@ -25,21 +27,14 @@ namespace AsyncInn.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Room>>> GetRooms()
         {
-            return await _context.Rooms.ToListAsync();
+            return await rooms.GetAllRooms();
         }
 
         // GET: api/Rooms/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Room>> GetRoom(int id)
         {
-            var room = await _context.Rooms.FindAsync(id);
-
-            if (room == null)
-            {
-                return NotFound();
-            }
-
-            return room;
+            return await rooms.GetRoomById(id);
         }
 
         // PUT: api/Rooms/5
