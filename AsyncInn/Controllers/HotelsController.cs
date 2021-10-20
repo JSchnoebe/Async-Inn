@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AsyncInn.Data;
 using AsyncInn.Models;
+using AsyncInn.Services;
 
 namespace AsyncInn.Controllers
 {
@@ -14,10 +15,12 @@ namespace AsyncInn.Controllers
     [ApiController]
     public class HotelsController : ControllerBase
     {
+        private readonly IHotelRepository hotels;
         private readonly AsyncInnDbContext _context;
 
-        public HotelsController(AsyncInnDbContext context)
+        public HotelsController(IHotelRepository hotels, AsyncInnDbContext context)
         {
+            this.hotels = hotels;
             _context = context;
         }
 
@@ -25,14 +28,14 @@ namespace AsyncInn.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Hotel>>> GetHotels()
         {
-            return await _context.Hotels.ToListAsync();
+            return await hotels.GetAll();
         }
 
         // GET: api/Hotels/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Hotel>> GetHotel(int id)
         {
-            var hotel = await _context.Hotels.FindAsync(id);
+            var hotel = await hotels.GetById(id);
 
             if (hotel == null)
             {
@@ -78,8 +81,7 @@ namespace AsyncInn.Controllers
         [HttpPost]
         public async Task<ActionResult<Hotel>> PostHotel(Hotel hotel)
         {
-            _context.Hotels.Add(hotel);
-            await _context.SaveChangesAsync();
+            await hotels.Insert(hotel);
 
             return CreatedAtAction("GetHotel", new { id = hotel.Id }, hotel);
         }
