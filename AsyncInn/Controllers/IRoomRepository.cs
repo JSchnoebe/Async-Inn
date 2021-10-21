@@ -10,5 +10,6 @@ namespace AsyncInn.Controllers
     {
         Task<ActionResult<IEnumerable<Room>>> GetAllRooms();
         Task<ActionResult<Room>> GetRoomById(int id);
+        Task Insert(Room room);
     }
 }
