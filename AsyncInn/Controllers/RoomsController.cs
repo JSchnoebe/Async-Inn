@@ -73,8 +73,7 @@ namespace AsyncInn.Controllers
         [HttpPost]
         public async Task<ActionResult<Room>> PostRoom(Room room)
         {
-            _context.Rooms.Add(room);
-            await _context.SaveChangesAsync();
+            await rooms.Insert(room);
 
             return CreatedAtAction("GetRoom", new { id = room.Id }, room);
         }
@@ -83,14 +82,15 @@ namespace AsyncInn.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRoom(int id)
         {
-            var room = await _context.Rooms.FindAsync(id);
-            if (room == null)
+            var deleteSucceeded = await rooms.TryDelete(id);
+
+            if (!deleteSucceeded)
             {
                 return NotFound();
             }
 
-            _context.Rooms.Remove(room);
-            await _context.SaveChangesAsync();
+            //_context.Hotels.Remove(hotel);
+            //await _context.SaveChangesAsync();
 
             return NoContent();
         }

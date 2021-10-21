@@ -12,7 +12,7 @@ namespace AsyncInn.Services.Database
     public class DatabaseRoomRepository : IRoomRepository
     {
         private readonly AsyncInnDbContext _context;
-
+        
         public DatabaseRoomRepository(AsyncInnDbContext context)
         {
             _context = context;
@@ -33,6 +33,25 @@ namespace AsyncInn.Services.Database
             }
 
             return room;
+        }
+
+        public async Task Insert(Room rooms)
+        {
+            _context.Rooms.Add(rooms);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<bool> TryDelete(int id)
+        {
+            var room = await _context.Rooms.FindAsync(id);
+            if (room == null)
+            {
+                return false;
+            }
+
+            _context.Rooms.Remove(room);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }
