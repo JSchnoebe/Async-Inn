@@ -32,9 +32,9 @@ namespace AsyncInn.Data
 
             modelBuilder.Entity<Amenity>()
                .HasData(
-               new Amenity { Id = 1, RoomId = 0 },
-               new Amenity { Id = 2, RoomId = 1 },
-               new Amenity { Id = 3, RoomId = 2 }
+               new Amenity { Id = 1, Name = "Free WiFi" },
+               new Amenity { Id = 2, Name = "Pet Friendly" },
+               new Amenity { Id = 3, Name = "Sauna" }
                );
 
             modelBuilder.Entity<RoomAmenity>()
@@ -42,7 +42,7 @@ namespace AsyncInn.Data
 
             modelBuilder.Entity<RoomAmenity>()
                 .HasData(
-                new RoomAmenity { AmenityId = 1, RoomId = 0},
+                new RoomAmenity { AmenityId = 1, RoomId = 1},
                 new RoomAmenity { AmenityId = 2, RoomId = 1},
                 new RoomAmenity { AmenityId = 3, RoomId = 2}
                 );
