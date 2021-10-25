@@ -12,6 +12,7 @@ namespace AsyncInn.Data
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Amenity> Amenities { get; set; }
         public DbSet<RoomAmenity> RoomAmenities { get; set; }
+        public DbSet<HotelRoom> HotelRooms { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -38,6 +39,13 @@ namespace AsyncInn.Data
 
             modelBuilder.Entity<RoomAmenity>()
                 .HasKey(ra => new { ra.RoomId, ra.AmenityId });
+
+            modelBuilder.Entity<RoomAmenity>()
+                .HasData(
+                new RoomAmenity { AmenityId = 1, RoomId = 0},
+                new RoomAmenity { AmenityId = 2, RoomId = 1},
+                new RoomAmenity { AmenityId = 3, RoomId = 2}
+                );
 
             modelBuilder.Entity<HotelRoom>()
                 .HasKey(hr => new { hr.RoomId, hr.HotelId });

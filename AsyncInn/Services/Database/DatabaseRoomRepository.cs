@@ -25,7 +25,14 @@ namespace AsyncInn.Services.Database
 
         public async Task<ActionResult<IEnumerable<Room>>> GetAllRooms()
         {
-            return await _context.Rooms.ToListAsync();
+            var result = await _context.Rooms
+
+                .Include(r => r.RoomAmenities)
+
+                .ThenInclude(a => a.Amenity)
+                .ToListAsync();
+
+            return result;
         }
 
         public async Task<ActionResult<Room>> GetRoomById(int id)
