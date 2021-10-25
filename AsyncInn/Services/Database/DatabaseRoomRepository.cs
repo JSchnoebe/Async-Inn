@@ -18,6 +18,11 @@ namespace AsyncInn.Services.Database
             _context = context;
         }
 
+        public Task AddAmenity(int amenityId, int roomId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<ActionResult<IEnumerable<Room>>> GetAllRooms()
         {
             return await _context.Rooms.ToListAsync();
@@ -39,6 +44,11 @@ namespace AsyncInn.Services.Database
         {
             _context.Rooms.Add(rooms);
             await _context.SaveChangesAsync();
+        }
+
+        public Task RemoveAmenity(int amenityId, int roomId)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<bool> TryDelete(int id)

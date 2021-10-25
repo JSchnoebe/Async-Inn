@@ -1,7 +1,8 @@
 ﻿using System;
 namespace AsyncInn.Services.Database
 {
-    public class DatabaseAmenityRepository
+    public class DatabaseHotelRoomRepository : IHotelRoomRepository
     {
+
     }
 }

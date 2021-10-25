@@ -104,5 +104,6 @@ namespace AsyncInn.Controllers
         {
             return _context.Amenities.Any(e => e.Id == id);
         }
+
     }
 }

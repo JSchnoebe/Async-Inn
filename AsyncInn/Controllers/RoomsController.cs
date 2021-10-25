@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AsyncInn.Data;
 using AsyncInn.Models;
+using AsyncInn.Services;
 
 namespace AsyncInn.Controllers
 {
@@ -98,6 +99,29 @@ namespace AsyncInn.Controllers
         private bool RoomExists(int id)
         {
             return _context.Rooms.Any(e => e.Id == id);
+        }
+
+
+        [Route("{roomId}/Amenity/{amenityId}")]
+        public async Task<IActionResult> AddAmenityToRoom(int roomId, int amenityId)
+        {
+            //var amenity = await _context.Amenities.FindAsync(amenityId);
+            //var room = await _context.Rooms.FindAsync(roomId);
+
+            await rooms.AddAmenity(amenityId, roomId);
+            return NoContent();
+
+
+        }
+
+        [Route("{roomId}/Amenity/{amenityId}")]
+        public async Task<IActionResult> RemoveAmentityFromRoom(int roomId, int amenityId)
+        {
+            //var amenity = await _context.Amenities.FindAsync(amenityId);
+            //var room = await _context.Rooms.FindAsync(roomId);
+
+            await rooms.RemoveAmenity(amenityId, roomId);
+            return NoContent();
         }
     }
 }

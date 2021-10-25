@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using AsyncInn.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AsyncInn.Controllers
+namespace AsyncInn.Services
 {
     public interface IRoomRepository
     {
@@ -12,5 +12,7 @@ namespace AsyncInn.Controllers
         Task<ActionResult<Room>> GetRoomById(int id);
         Task Insert(Room rooms);
         Task<bool> TryDelete(int id);
+        Task AddAmenity(int amenityId, int roomId);
+        Task RemoveAmenity(int amenityId, int roomId);
     }
 }
