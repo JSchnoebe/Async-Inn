@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using AsyncInn.Controllers;
 using AsyncInn.Data;
+using AsyncInn.Models.Identity;
 using AsyncInn.Services;
 using AsyncInn.Services.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -41,6 +43,15 @@ namespace AsyncInn
             services.AddScoped<IRoomRepository, DatabaseRoomRepository>();
 
             services.AddScoped<IAmenityRepository, DatabaseAmenityRepository>();
+
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+                // There are other options like this
+            })
+            .AddEntityFrameworkStores<AsyncInnDbContext>();
+
+            services.AddTransient<IUserService, IdentityUserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -11,7 +11,7 @@ namespace AsyncInn.Services
     public interface IHotelRepository
     {
         Task<List<HotelDTO>> GetAll();
-        Task<Hotel> GetById(int id);
+        Task<HotelDTO> GetById(int id);
         Task Insert(Hotel hotels);
         Task<bool> TryDelete(int id);
     }

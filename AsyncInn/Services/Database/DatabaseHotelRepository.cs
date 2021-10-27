@@ -34,9 +34,22 @@ namespace AsyncInn.Services.Database
                 .ToListAsync();
         }
 
-        public async Task<Hotel> GetById(int id)
+        public async Task<HotelDTO> GetById(int id)
         {
-            return await _context.Hotels.FindAsync(id);
+            var result = await _context.Hotels
+
+                .Select(hotel => new HotelDTO
+                {
+                    ID = hotel.Id,
+                    Name = hotel.Name,
+                    StreetAddress = hotel.StreetAddress,
+                    City = hotel.City,
+                    State = hotel.State,
+                    Phone = hotel.Phone
+                })
+                .FirstOrDefaultAsync(hotel => hotel.ID == id);
+
+            return result;
         }
 
         public async Task Insert(Hotel hotels)
