@@ -29,5 +29,19 @@ namespace AsyncInn.Services.Database
                 })
                 .ToListAsync();
         }
+
+        public async Task<AmenityDTO> GetById(int id)
+        {
+            var result = await _context.Amenities
+
+                .Select(amenity => new AmenityDTO
+                {
+                    ID = amenity.Id,
+                    Name = amenity.Name
+                })
+                .FirstOrDefaultAsync(amenity => amenity.ID == id);
+
+            return result;
+        }
     }
 }

@@ -8,5 +8,6 @@ namespace AsyncInn.Services
     public interface IAmenityRepository
     {
         Task<List<AmenityDTO>> GetAll();
+        Task<AmenityDTO> GetById(int id);
     }
 }

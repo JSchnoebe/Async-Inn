@@ -34,16 +34,9 @@ namespace AsyncInn.Controllers
 
         // GET: api/Amenities/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Amenity>> GetAmenity(int id)
+        public async Task<ActionResult<AmenityDTO>> GetAmenity(int id)
         {
-            var amenity = await _context.Amenities.FindAsync(id);
-
-            if (amenity == null)
-            {
-                return NotFound();
-            }
-
-            return amenity;
+            return await amenityRepository.GetById(id);
         }
 
         // PUT: api/Amenities/5

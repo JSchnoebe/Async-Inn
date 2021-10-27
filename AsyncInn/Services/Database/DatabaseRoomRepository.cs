@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AsyncInn.Controllers;
 using AsyncInn.Data;
 using AsyncInn.Models;
+using AsyncInn.Models.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,28 +25,45 @@ namespace AsyncInn.Services.Database
             throw new NotImplementedException();
         }
 
-        public async Task<ActionResult<IEnumerable<Room>>> GetAllRooms()
+        public async Task<ActionResult<IEnumerable<RoomDTO>>> GetAllRooms()
         {
-            var result = await _context.Rooms
+            return await _context.Rooms
 
                 .Include(r => r.RoomAmenities)
 
-                .ThenInclude(a => a.Amenity)
-                .ToListAsync();
+                .ThenInclude(ra => ra.Amenity)
 
-            return result;
+                .Select(room => new RoomDTO
+                {
+                    ID = room.Id,
+                    Name = room.Name,
+                    Layout = room.Layout,
+
+                    Amenities = room.RoomAmenities
+                    .Select(ra => new AmenityDTO
+                    {
+                        ID = ra.AmenityId,
+                        Name = ra.Amenity.Name,
+                    })
+                    .ToList(),
+
+                })
+
+                .ToListAsync();
         }
 
-        public async Task<ActionResult<Room>> GetRoomById(int id)
+        public async Task<ActionResult<RoomDTO>> GetRoomById(int id)
         {
-            var room = await _context.Rooms.FindAsync(id);
+            var result = await _context.Rooms
 
-            if (room == null)
-            {
-                return null;
-            }
+                .Select(room => new RoomDTO
+                {
+                    ID = room.Id,
+                    Name = room.Name
+                })
+                .FirstOrDefaultAsync(room => room.ID == id);
 
-            return room;
+            return result;
         }
 
         public async Task Insert(Room rooms)
@@ -69,6 +88,16 @@ namespace AsyncInn.Services.Database
             _context.Rooms.Remove(room);
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        Task<ActionResult<IEnumerable<RoomDTO>>> IRoomRepository.GetAllRooms()
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<ActionResult<RoomDTO>> IRoomRepository.GetRoomById(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

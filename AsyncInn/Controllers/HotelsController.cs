@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using AsyncInn.Data;
 using AsyncInn.Models;
 using AsyncInn.Services;
+using AsyncInn.Models.DTOs;
 
 namespace AsyncInn.Controllers
 {
@@ -26,7 +27,7 @@ namespace AsyncInn.Controllers
 
         // GET: api/Hotels
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Hotel>>> GetHotels()
+        public async Task<ActionResult<IEnumerable<HotelDTO>>> GetHotels()
         {
             return await hotels.GetAll();
         }
