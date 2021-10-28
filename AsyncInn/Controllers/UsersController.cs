@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AsyncInn.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -21,7 +21,7 @@ namespace AsyncInn.Controllers
             this.userService = userService;
         }
 
-        [HttpPost("Register")]
+        [HttpPost("[action]")]
         public async Task<ActionResult<UserDTO>> Register(RegisterUserDTO data)
         {
             var user = await userService.Register(data, this.ModelState);

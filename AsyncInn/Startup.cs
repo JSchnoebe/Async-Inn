@@ -44,6 +44,20 @@ namespace AsyncInn
 
             services.AddScoped<IAmenityRepository, DatabaseAmenityRepository>();
 
+            services.AddSingleton<JwtService>();
+
+            services
+                .AddAuthentication(options =>
+                {
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = JwtService.GetValidationParameters(Configuration);
+                });
+
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.User.RequireUniqueEmail = true;
@@ -57,12 +71,23 @@ namespace AsyncInn
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(options =>
+            {
+                options.AllowAnyMethod();
+                options.AllowAnyOrigin();
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
             app.UseRouting();
+
+            // Figure out who the user is
+            app.UseAuthentication();
+            // And what they can do
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

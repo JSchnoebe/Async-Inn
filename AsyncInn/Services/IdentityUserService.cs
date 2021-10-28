@@ -4,16 +4,19 @@ using AsyncInn.Models.DTOs;
 using AsyncInn.Models.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions.Logging;
 
 namespace AsyncInn.Services
 {
     public class IdentityUserService : IUserService
     {
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly JwtService jwtService;
 
-        public IdentityUserService(UserManager<ApplicationUser> userManager)
+        public IdentityUserService(UserManager<ApplicationUser> userManager, JwtService jwtService, ILogger<IdentityUserService> logger)
         {
             this.userManager = userManager;
+            this.jwtService = jwtService;
         }
 
         public async Task<UserDTO> Authenticate(LoginData data)
